@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>User View Bookings</title>
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <h1 class="text-center">User View Bookings Page</h1>
+        <div *ngIf="successMessage" class="alert alert-success">
+            <strong>{{ successMessage }}</strong>
+            <div>
+                <p><strong>Driver's Username:</strong> {{ newBooking.booking.driver.username}}</p>
+                <p><strong>Initial Location:</strong> {{ newBooking.booking.source }}</p>
+                <p><strong>Destination:</strong> {{ newBooking.booking.destination }}</p>
+                <p><strong>Vehicle Type:</strong> {{ newBooking.booking.vehicleType }}</p>
+                <p><strong>Travel Fare:</strong> {{ newBooking.booking.travelFare }}</p>
+                <p><strong>Booking Time:</strong> {{ newBooking.booking.bookingTime }}</p>
+            </div>
+        </div>
+        
+        <div class="text-center my-4">
+            <button type="button" class="btn btn-primary btn-router" routerLink="/user/createBooking">Create A New Booking</button>
+            <br><br>
+            <button type="button" class="btn btn-secondary btn-router" routerLink="/user">Return to User Dashboard</button>
+            <br><br>
+            <form>
+                <div class="form-group">
+                    <label for="filterCriteria"><b>Filter Enquiries By:</b></label>
+                    <select class="form-control" id="filterCriteria" name="filterCriteria" [(ngModel)]="selectedFilterCriteria" (change)="filterBookings()">
+                        <option value="driverUsername">Driver's Username</option>
+                        <option value="vehicleType">Vehicle Type</option>
+                    </select>
+                    <br>
+                    <label *ngIf="selectedFilterCriteria !== 'vehicleType'" for="filterInput"><b>Filter:</b></label>
+                    <input *ngIf="selectedFilterCriteria !== 'vehicleType'" type="text" class="form-control" id="filterInput" name="filterInput" [(ngModel)]="searchTerm" (input)="filterBookings()">
+                    <label *ngIf="selectedFilterCriteria === 'vehicleType'" for="filterVehicleType"><b>Filter:</b></label>
+                    <select *ngIf="selectedFilterCriteria === 'vehicleType'" name="filterVehicleType" id="filterVehicleType" class="form-control" [(ngModel)]="searchTerm" (change)="onFilterVehicleTypeChange()" required>
+                        <option value="" disabled>Select Cab Type</option>
+                        <option *ngFor="let cabType of cabTypes" [ngValue]="cabType">{{ cabType }}</option>
+                    </select>                                                                                                                        
+                </div>
+            </form>
+        </div>
+        <br>
+        <div *ngIf="deletedBooking" [ngClass]="{'alert alert-success': !deletionError, 'alert alert-danger': deletionError}" class="alert">
+            <strong>{{ deletionError ? 'Error' : 'Success' }}:</strong> {{ deletionError || 'Booking deleted successfully.' }}
+            <br>
+            <strong>Deleted Booking Details:</strong><br>
+            UUID: {{ deletedBooking.booking.bookingId }}<br>
+            Driver's Username: {{ deletedBooking.booking.driver.username }}<br>
+            Vehicle Type: {{ deletedBooking.booking.driver.vehicleType }}<br>
+            Initial Location: {{ deletedBooking.booking.source }}<br>
+            Destination: {{ deletedBooking.booking.destination }}<br>
+            Travel Fare: {{ deletedBooking.booking.travelFare }}<br>
+            Booking Time: {{ deletedBooking.booking.bookingTime }}<br>
+        </div>        
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">UUID</th>
+                    <th scope="col">Driver's Username</th>
+                    <th scope="col">Vehicle Type</th>
+                    <th scope="col">Initial Location</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Travel Fare</th>
+                    <th scope="col">Booking Time</th>
+                    <th scope="col">Edit Booking</th>
+                    <th scope="col">Delete Booking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bookingContact of filteredBookings">
+                    <td>{{ bookingContact.booking.bookingId }}</td>
+                    <td>{{ bookingContact.booking.driver.username }}</td>
+                    <td>{{ selectedFilterCriteria === 'vehicleType' ? getDisplayPreference(bookingContact.booking.driver.vehicleType) : bookingContact.booking.driver.vehicleType }}</td>
+                    <td>{{ bookingContact.booking.source }}</td>
+                    <td>{{ bookingContact.booking.destination }}</td>
+                    <td>{{ bookingContact.booking.travelFare }}</td>
+                    <td>{{ bookingContact.booking.bookingTime }}</td>
+                    <td><button type="button" class="btn btn-warning btn-center" [routerLink]="'/user/editBooking/' + bookingContact.booking.bookingId">Edit Booking</button></td>
+                    <td><button type="submit" class="btn btn-danger btn-center" (click)="deleteBooking(bookingContact.booking.bookingId)">Delete Booking</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add pagination -->
+        <div class="text-center">
+            <ul class="pagination">
+              <li class="page-item" *ngFor="let page of getPages()" [class.active]="currentPage === page">
+                <a class="page-link" href="#" (click)="onPageChange(page, $event)">{{ page }}</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

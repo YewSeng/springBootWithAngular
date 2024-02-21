@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>NavBar</title>
+</head>
+<body>
+    <div *ngIf="unauthorized; else authorized">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" [routerLink]="navbarLink">
+            <img src="../../assets/images/logo.png" alt="Logo" class="logo" width="50" height="50">
+            Tan Foundation
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContentUnauthorized">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/home">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/about-us">About Us</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/contact-us">Contact Us</a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <ng-template #authorized>
+        <div *ngIf="isUserNavBarVisible">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" routerLink="/user">
+                  <img src="../../assets/images/logo.png" alt="Logo" class="logo" width="50" height="50">
+                    Tan Foundation
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+          
+                <div class="collapse navbar-collapse" id="navbarSupportedContentUser">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" [routerLink]="'/user/viewProfile/'+userId">View Your Profile</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" routerLink="/user/createBooking">Book a Cab</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" [routerLink]="'/user/viewBookings/'+userId">View Your Bookings</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="logout()">LOGOUT</button>
+                  </form>
+                </div>
+              </nav>
+        </div>
+        <div *ngIf="isDriverNavBarVisible">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" routerLink="/driver">
+                  <img src="../../assets/images/logo.png" alt="Logo" class="logo" width="50" height="50">
+                    Tan Foundation
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+          
+                <div class="collapse navbar-collapse" id="navbarSupportedContentDriver">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" [routerLink]="'/driver/viewProfile/'+driverId">View Your Profile</a>
+                    </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" [routerLink]="'/driver/viewBookings/'+driverId">View Your Bookings</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="logout()">LOGOUT</button>
+                  </form>
+                </div>
+              </nav>
+        </div>
+        <div *ngIf="isAdminNavBarVisible">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" routerLink="/admin">
+                  <img src="../../assets/images/logo.png" alt="Logo" class="logo" width="50" height="50">
+                    Tan Foundation
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+          
+                <div class="collapse navbar-collapse" id="navbarSupportedContentAdmin">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" routerLink="/admin/viewUsers">View Users</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" routerLink="/admin/viewDrivers">View Drivers</a>
+                      </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" routerLink="/admin/viewBookings">View Bookings</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="logout()">LOGOUT</button>
+                  </form>
+                </div>
+              </nav>
+        </div>
+        <div *ngIf="isSuperAdminNavBarVisible">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" routerLink="/admin">
+                  <img src="../../assets/images/logo.png" alt="Logo" class="logo" width="50" height="50">
+                    Tan Foundation
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+          
+                <div class="collapse navbar-collapse" id="navbarSupportedContentAdmin">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" routerLink="/superadmin/viewEnquiries">View Enquiries</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" routerLink="/superadmin/createAdmin">Create Admins</a>
+                      </li>
+                    <li class="nav-item active">
+                      <a class="nav-link" routerLink="/superadmin/viewAdmins">View Admins</a>
+                    </li>
+                  </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="logout()">LOGOUT</button>
+                  </form>
+                </div>
+              </nav>
+        </div>
+    </ng-template>    
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>super Admin</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1 class="mt-4">Super Admin Dashboard</h1>
+        <h3>Welcome Home, Super Admin!</h3>
+
+        <div class="row d-flex justify-content-center">
+            <div class="card">
+                <img src="../../assets/images/admin.jpg" class="card-img-top" alt="admin">
+                <div class="card-body">
+                    <h5 class="card-title">Admin</h5>
+                    <p class="card-text">Individually, we are one drop. Together, we are an ocean. - Ryunosuke Satoro</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated eons ago</small>
+                    <div class="btn-group">
+                        <p><b>Create An Admin</b></p>
+                        <button class="btn btn-primary" id="createAdmin" (click)="goToCreateAdminPage()">Create an Admin</button>
+                        <p><b>View All Admins</b></p>
+                        <button class="btn btn-secondary" id="viewAdmin" (click)="goToViewAdminsPage()">View Admins</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="../../assets/images/enquiry.jpg" class="card-img-top" alt="enquiries">
+                <div class="card-body">
+                    <h5 class="card-title">Enquiries</h5>
+                    <p class="card-text">By doubting we are led to enquire, and by enquiry we perceive the truth. - Peter Abelard</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Last updated eons ago</small>
+                    <div class="btn-group">
+                        <p><b>View All Enquiries</b></p>
+                        <button class="btn btn-primary" id="viewEnquiries" (click)="goToViewEnquiriesPage()">View Enquiries</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

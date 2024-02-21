@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>User Update Booking</title>
+</head>
+<body>
+    <div class="center-container">
+        <h1>User Update Booking Page</h1>
+        <button type="button" class="btn btn-primary btn-center btn-router" routerLink="/user/viewBookings">Return to View Bookings Page</button>
+        <br>
+        <!-- Error message div -->
+        <div *ngIf="updateError" class="alert alert-danger">
+            <strong>{{ updateError }}</strong>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- Display old data in table format -->
+                <div class="col-md-6">
+                    <h2>Old Booking Data</h2>
+                    <!-- Table to display old data -->
+                    <table class="table">
+                        <!-- Table headers -->
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody *ngIf="oldBookingData">
+                            <tr>
+                                <td>User's Username</td>
+                                <td>{{ oldBookingData?.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Driver's Username</td>
+                                <td>{{ oldBookingData?.driver.username }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pickup Point</td>
+                                <td>{{ oldBookingData?.source }}</td>
+                            </tr>
+                            <tr>
+                                <td>Destination</td>
+                                <td>{{ oldBookingData?.destination }}</td>
+                            </tr>
+                            <tr>
+                                <td>Booking Time</td>
+                                <td>{{ oldBookingData?.bookingTime }}</td>
+                            </tr>
+                            <tr>
+                                <td>Vehicle Type</td>
+                                <td>{{ oldBookingData?.vehicleType }}</td>
+                            </tr>
+                            <tr>
+                                <td>Travel Fare</td>
+                                <td>{{ oldBookingData?.travelFare }}</td>
+                            </tr>
+                        </tbody>                        
+                    </table>
+                </div>
+                <!-- Form for new data -->
+                <div class="col-md-6">
+                    <h2>Update Booking Data</h2>
+                    <!-- Reactive Form -->
+                    <form [formGroup]="updateBookingForm" (ngSubmit)="updateBooking()">
+                        <!-- Form fields for new data -->
+                        <div class="form-group">
+                            <label for="bookingId"><b>Booking ID:</b></label>
+                            <input type="text" class="form-control" id="bookingId" value="{{ oldBookingData?.bookingId.toString() }}" name="bookingId" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="userUsername"><b>User's Username:</b></label>
+                            <input type="text" class="form-control" id="userUsername" value="{{ oldBookingData?.user.username.toString() }}" name="userUsername" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="driverUsername"><b>Driver's Username:</b></label>
+                            <input type="text" class="form-control" id="driverUsername" value="{{ oldBookingData?.driver.username.toString() }}" name="driverUsername" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleType"><b>Vehicle Type:</b></label>
+                            <input type="text" class="form-control" id="vehicleType" value="{{ oldBookingData?.vehicleType.toString() }}" name="vehicleType" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pickup"><b>Current Location:</b></label>
+                            <input type="number" pattern="[0-9]{6}" class="form-control" formControlName="pickup" name="pickup" id="pickup" placeholder="Enter Your Current Location" required>
+                            <div *ngIf="updateBookingForm.get('pickup').invalid && (updateBookingForm.get('pickup').dirty || updateBookingForm.get('pickup').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateBookingForm.get('pickup').hasError('required')">Current Location is required!</strong>
+                                <strong *ngIf="updateBookingForm.get('pickup').hasError('minlength')">Current Location must contain only 6 digits!</strong>
+                                <strong *ngIf="updateBookingForm.get('pickup').hasError('maxlength')">Current Location must contain only 6 digits!</strong>
+                                <strong *ngIf="updateBookingForm.get('pickup').hasError('pattern')">Current Location cannot start with 0!</strong>
+                            </div>            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dropoff"><b>Destination:</b></label>
+                            <input type="number" pattern="[0-9]{6}" class="form-control" formControlName="dropoff" name="dropoff" id="dropoff" placeholder="Enter Your Destination" required>
+                            <div *ngIf="updateBookingForm.get('dropoff').invalid && (updateBookingForm.get('dropoff').dirty || updateBookingForm.get('dropoff').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateBookingForm.get('dropoff').hasError('required')">Destination is required!</strong>
+                                <strong *ngIf="updateBookingForm.get('dropoff').hasError('minlength')">Destination must contain only 6 digits!</strong>
+                                <strong *ngIf="updateBookingForm.get('dropoff').hasError('maxlength')">Destination must contain only 6 digits!</strong>
+                                <strong *ngIf="updateBookingForm.get('dropoff').hasError('pattern')">Destination cannot start with 0!</strong>
+                            </div>                   
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingTime"><b>Booking Time:</b></label>
+                            <input type="datetime-local" class="form-control" formControlName="bookingTime" name="bookingTime" id="bookingTime" placeholder="Select Your Booking Timing" required>
+                            <div *ngIf="updateBookingForm.get('bookingTime').invalid && (updateBookingForm.get('bookingTime').dirty || updateBookingForm.get('bookingTime').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateBookingForm.get('bookingTime').hasError('required')">Booking Timing is required!</strong>
+                            </div>            
+                        </div>
+
+                        <!-- Button to calculate fare -->
+                        <button type="button" class="btn btn-info" (click)="calculateNewFare()" [disabled]="!updateBookingForm.get('pickup').value || !updateBookingForm.get('dropoff').value || !updateBookingForm.get('bookingTime').value">Calculate New Fare</button>
+
+                        <!-- Field to display fare -->
+                        <div *ngIf="fareCalculated" class="form-group">
+                            <label for="fare"><b>Fare:</b></label>
+                            <input type="text" class="form-control" id="fare" name="fare" [value]="updatedTravelFare" readonly>
+                        </div>
+
+                        <!-- Add checkbox for surcharge -->
+                        <div class="form-group">
+                            <input type="checkbox" id="surchargeCheckbox" (change)="updateTravelFare($event)" formControlName="surchargeCheckbox">
+                            <label for="surchargeCheckbox"><b>Each update will result in an additional $3 surcharge in travel fare</b></label>
+                        </div>
+
+                        <!-- Update Button -->
+                        <button type="submit" class="btn btn-success btn-center" [disabled]="updateBookingForm.invalid || !fareCalculated || !updateBookingForm.get('surchargeCheckbox').value">
+                            {{ updateBookingForm.invalid || !fareCalculated || !updateBookingForm.get('surchargeCheckbox').value ? 'Please enter new Booking Credentials and agree to surcharge' : 'UPDATE' }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

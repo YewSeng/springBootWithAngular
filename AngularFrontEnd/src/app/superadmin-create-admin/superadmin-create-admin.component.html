@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Super Admin Create Admin</title>
+</head>
+<body>
+    <h1>Super Admin Create Admin Page</h1>
+    <button type="submit" class="btn btn-primary btn-center btn-router" routerLink="/superadmin/ViewAdmins">View All Admins</button>
+    <button type="submit" class="btn btn-secondary btn-center btn-router" routerLink="/superadmin">Return to Super Admin Dashboard</button>
+
+    <div class="center-container">
+        <!-- Reactive Form -->
+        <form [formGroup]="registerAdminForm" (ngSubmit)="registerAdmin()">
+    
+            <!-- Error message div -->
+            <div *ngIf="registerError" class="alert alert-danger">
+                <strong>{{ registerError }}</strong>
+            </div>
+        
+            <div class="form-group">
+                <label for="firstName"><b>First Name:</b></label>
+                <input type="text" class="form-control" formControlName="firstName" name="firstName" id="firstName" placeholder="Enter Your First Name" required>
+                <div *ngIf="registerAdminForm.get('firstName').invalid && (registerAdminForm.get('firstName').dirty || registerAdminForm.get('firstName').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('firstName').hasError('required')">First Name is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('firstName').hasError('minlength')">First Name must contain at least 5 characters!</strong>
+                </div>                   
+            </div>
+
+            <div class="form-group">
+                <label for="lastName"><b>Last Name:</b></label>
+                <input type="text" class="form-control" formControlName="lastName" name="lastName" id="lastName" placeholder="Enter Your Last Name" required>
+                <div *ngIf="registerAdminForm.get('lastName').invalid && (registerAdminForm.get('lastName').dirty || registerAdminForm.get('lastName').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('lastName').hasError('required')">Last Name is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('lastName').hasError('minlength')">Last Name must contain at least 3 characters!</strong>
+                </div>                   
+            </div>
+
+            <div class="form-group">
+                <label for="email"><b>Email:</b></label>
+                <input type="email" class="form-control" formControlName="email" name="email" id="email" placeholder="Enter Your Email" required>
+                <div *ngIf="registerAdminForm.get('email').invalid && (registerAdminForm.get('email').dirty || registerAdminForm.get('email').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('email').hasError('required')">Email is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('email').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                    <strong *ngIf="registerAdminForm.get('email').hasError('email')">Invalid email format!</strong>
+                    <strong *ngIf="registerAdminForm.get('email').hasError('taken')">Email is already taken!</strong>
+                </div>            
+            </div>
+
+            <div class="form-group">
+                <label for="mobileNumber"><b>Mobile Number:</b></label>
+                <input type="tel" pattern="[0-9]{8}" class="form-control" formControlName="mobileNumber" name="mobileNumber" id="mobileNumber" placeholder="Enter Your Mobile Number" required>
+                <div *ngIf="registerAdminForm.get('mobileNumber').invalid && (registerAdminForm.get('mobileNumber').dirty || registerAdminForm.get('mobileNumber').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('mobileNumber').hasError('required')">Mobile Number is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('mobileNumber').hasError('minlength')">Mobile Number must contain at least 8 digits!</strong>
+                    <strong *ngIf="registerAdminForm.get('mobileNumber').hasError('maxlength')">Mobile Number must contain at most 8 digits!</strong>
+                    <strong *ngIf="registerAdminForm.get('mobileNumber').hasError('pattern')">Mobile Number must start with 8 or 9 and have a total of 8 digits!</strong>
+                    <strong *ngIf="registerAdminForm.get('mobileNumber').hasError('taken')">Mobile Number is already taken!</strong> 
+                </div>            
+            </div>
+
+            <div class="form-group">
+                <label for="username"><b>Username:</b></label>
+                <input type="text" class="form-control" formControlName="username" name="username" id="username" placeholder="Enter Your Username" required>
+                <div *ngIf="registerAdminForm.get('username').invalid && (registerAdminForm.get('username').dirty || registerAdminForm.get('username').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('username').hasError('required')">Username is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('username').hasError('minlength')">Username must contain at least 8 characters!</strong>
+                    <strong *ngIf="registerAdminForm.get('username').hasError('maxlength')">Username must not contain more than 16 characters!</strong>
+                    <strong *ngIf="registerAdminForm.get('username').hasError('pattern')">Username must start with an uppercase 'A'!</strong>
+                    <strong *ngIf="registerAdminForm.get('username').hasError('taken')">Username is already taken!</strong> 
+                </div>                    
+            </div>
+                
+            <div class="form-group">
+                <label for="passwordInput"><b>Password:</b></label>
+                <input id="passwordInput" type="{{ showPassword ? 'text' : 'password' }}" class="form-control" 
+                    formControlName="password" name="password" placeholder="Enter Your Password" required>
+                <div *ngIf="registerAdminForm.get('password').invalid && (registerAdminForm.get('password').dirty || registerAdminForm.get('password').touched)"
+                    class="error-message">
+                    <strong *ngIf="registerAdminForm.get('password').hasError('required')">Password is required!</strong>
+                    <strong *ngIf="registerAdminForm.get('password').hasError('minlength')">Password must contain at least 8 characters!</strong>
+                    <strong *ngIf="registerAdminForm.get('password').hasError('maxlength')">Password must not contain more than 255 characters!</strong>
+                    <strong *ngIf="registerAdminForm.get('password').hasError('pattern')">Password must contain at least 1 number, 1 uppercase letter, 1 '&#64;', and be at least 8 characters long!</strong>
+                </div>                
+            </div>              
+                
+            <div class="form-group">
+                <label for="showPassword">
+                    <input type="checkbox" id="showPassword" (change)="togglePasswordVisibility()">Show Password
+                </label>
+            </div>
+                
+            <!-- Register Button -->
+            <button type="submit" class="btn btn-success btn-center" [disabled]="registerAdminForm.invalid">
+                {{ registerAdminForm.invalid ? 'Please enter Admin Account creation Credentials' : 'REGISTER' }}
+            </button>            
+        </form>
+    </div>
+</body>
+</html>

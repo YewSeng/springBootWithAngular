@@ -1,0 +1,70 @@
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.btn-center {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+btn-router {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.scrolling-text {
+    color: cornflowerblue;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: scroll 10s linear infinite;
+}
+
+body {
+    background: url(../../assets/images/taxi.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    padding: 0;  
+}
+
+.center-container {
+    width: 100%;
+    max-width: 1500px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    height: auto; 
+    overflow-y: auto;
+}
+
+.no-resize {
+    resize: none;
+}
+
+h3 {
+    text-align: center;
+}
+
+.custom-background {
+    background-color: #4bb2fb; /* You can change this color code */
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}

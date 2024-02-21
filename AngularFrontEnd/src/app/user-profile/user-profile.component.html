@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>User Profile</title>
+</head>
+<body>
+	<div>
+        <h1><b>User Profile</b></h1>
+        <h2><b>Username:</b></h2>
+        <h3>{{ username }}</h3>
+        <br>
+        <h2><b>Cab Preferences:</b></h2>
+        <h3>{{ userPreferences }}</h3>
+        <br>
+        <img src="../../assets/images/user.png" alt="User" width="250" height="300"><br>
+        <br>
+        <button type="submit" class="btn btn-primary btn-router" [routerLink]="'/user/editUser/' + userId">Update Profile</button>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-secondary btn-center btn-router" routerLink="/user">Return to User Dashboard</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+h1,h3 {
+    text-align: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background: url(../../assets/images/taxi.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    padding: 0; 
+}
+
+.center-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.btn-center {
+    display: flex;
+    justify-content: center; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,43 @@
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+div {
+    margin-top: 100px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(122, 122, 122, 0.6);
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+    border-top-left-radius: 10%;
+    border-top-right-radius: 10%;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+    background: linear-gradient(360deg, #39ef74,#4600f1 100%);
+    /*background: radial-gradient(blue,purple);*/
+    /* background: conic-gradient(red,orange); */
+    border-radius: 20px;
+    animation: rotateCard 10s infinite 2s alternate-reverse;
+}
+
+img {
+    width: 156px;
+    height: 156px;
+    border-radius: 50%;
+    border: 2px solid cornflowerblue;
+}
+
+@keyframes rotateCard {
+    75% {transform: rotate(30deg);}
+}
+
+body {
+    background: url(../../assets/images/taxi.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    padding: 0;  
+}

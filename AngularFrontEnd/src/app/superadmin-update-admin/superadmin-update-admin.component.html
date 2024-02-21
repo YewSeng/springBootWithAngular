@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Update Admin</title>
+</head>
+<body>
+    <div class="center-container">
+        <h1>Super Admin Update Admin Page</h1>
+        <button type="button" class="btn btn-primary btn-center btn-router" routerLink="/superadmin/viewAdmins">Return to View Admins Page</button>
+        <br>
+        <!-- Error message div -->
+        <div *ngIf="updateError" class="alert alert-danger">
+            <strong>{{ updateError }}</strong>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- Display old data in table format -->
+                <div class="col-md-6">
+                    <h2>Old Admin Data</h2>
+                    <!-- Table to display old data -->
+                    <table class="table">
+                        <!-- Table headers -->
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody *ngIf="oldAdminData">
+                            <tr>
+                                <td>First Name</td>
+                                <td>{{ oldAdminData?.firstName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td>{{ oldAdminData?.lastName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ oldAdminData?.email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile Number</td>
+                                <td>{{ oldAdminData?.mobileNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td>{{ oldAdminData?.username }}</td>
+                            </tr>
+                        </tbody>                        
+                    </table>
+                </div>
+                <!-- Form for new data -->
+                <div class="col-md-6">
+                    <h2>Update Admin Data</h2>
+                    <!-- Reactive Form -->
+                    <form [formGroup]="updateAdminForm" (ngSubmit)="updateAdmin()">
+                        <!-- Form fields for new data -->
+                        <div class="form-group">
+                            <label for="adminId"><b>Admin ID:</b></label>
+                            <input type="text" class="form-control" id="adminId" value="{{ oldAdminData?.id.toString() }}" name="adminId" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstName"><b>First Name:</b></label>
+                            <input type="text" class="form-control" id="firstName" formControlName="firstName" name="firstName" placeholder="Enter Your First Name" required>
+                            <div *ngIf="updateAdminForm.get('firstName').invalid && (updateAdminForm.get('firstName').dirty || updateAdminForm.get('firstName').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('firstName').hasError('required')">First Name is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('firstName').hasError('minlength')">First Name must contain at least 5 characters!</strong>
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName"><b>Last Name:</b></label>
+                            <input type="text" class="form-control" id="lastName" formControlName="lastName" name="lastName" placeholder="Enter Your Last Name" required>
+                            <div *ngIf="updateAdminForm.get('lastName').invalid && (updateAdminForm.get('lastName').dirty || updateAdminForm.get('lastName').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('lastName').hasError('required')">Last Name is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('lastName').hasError('minlength')">Last Name must contain at least 3 characters!</strong>
+                            </div>  
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"><b>Email:</b></label>
+                            <input type="email" class="form-control" id="email" formControlName="email" name="email" placeholder="Enter Your Email" required>
+                            <div *ngIf="updateAdminForm.get('email').invalid && (updateAdminForm.get('email').dirty || updateAdminForm.get('email').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('email').hasError('required')">Email is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('email').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                                <strong *ngIf="updateAdminForm.get('email').hasError('email')">Invalid email format!</strong>
+                                <strong *ngIf="updateAdminForm.get('email').hasError('taken')">Email is already taken!</strong>
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobileNumber"><b>Mobile Number:</b></label>
+                            <input type="tel" class="form-control" id="mobileNumber" formControlName="mobileNumber" name="mobileNumber" pattern="[0-9]{8}" placeholder="Enter Your Mobile Number" required>
+                            <div *ngIf="updateAdminForm.get('mobileNumber').invalid && (updateAdminForm.get('mobileNumber').dirty || updateAdminForm.get('mobileNumber').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('mobileNumber').hasError('required')">Mobile Number is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('mobileNumber').hasError('minlength')">Mobile Number must contain at least 8 digits!</strong>
+                                <strong *ngIf="updateAdminForm.get('mobileNumber').hasError('maxlength')">Mobile Number must contain at most 8 digits!</strong>
+                                <strong *ngIf="updateAdminForm.get('mobileNumber').hasError('pattern')">Mobile Number must start with 8 or 9 and have a total of 8 digits!</strong>
+                                <strong *ngIf="updateAdminForm.get('mobileNumber').hasError('taken')">Mobile Number is already taken!</strong>
+                            </div>      
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username"><b>Username:</b></label>
+                            <input type="text" class="form-control" id="username" formControlName="username" name="username" placeholder="Enter Your Username" required>
+                            <div *ngIf="updateAdminForm.get('username').invalid && (updateAdminForm.get('username').dirty || updateAdminForm.get('username').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('username').hasError('required')">Username is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('username').hasError('minlength')">Username must contain at least 8 characters!</strong>
+                                <strong *ngIf="updateAdminForm.get('username').hasError('maxlength')">Username must not contain more than 16 characters!</strong>
+                                <strong *ngIf="updateAdminForm.get('username').hasError('pattern')">Username must start with an uppercase 'A'!</strong>
+                                <strong *ngIf="updateAdminForm.get('username').hasError('taken')">Username is already taken!</strong>
+                            </div>  
+                        </div>
+
+                        <div class="form-group">
+                            <label for="passwordInput"><b>Password:</b></label>
+                            <input id="passwordInput" type="{{ showPassword ? 'text' : 'password' }}" class="form-control" 
+                                formControlName="password" name="password" placeholder="Enter Your Password" required>
+                            <div *ngIf="updateAdminForm.get('password').invalid && (updateAdminForm.get('password').dirty || updateAdminForm.get('password').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateAdminForm.get('password').hasError('required')">Password is required!</strong>
+                                <strong *ngIf="updateAdminForm.get('password').hasError('minlength')">Password must contain at least 8 characters!</strong>
+                                <strong *ngIf="updateAdminForm.get('password').hasError('maxlength')">Password must not contain more than 255 characters!</strong>
+                                <strong *ngIf="updateAdminForm.get('password').hasError('pattern')">Password must contain at least 1 number, 1 uppercase letter, 1 '&#64;', and be at least 8 characters long!</strong>
+                            </div>                
+                        </div>      
+
+                        <div class="form-group">
+                            <label for="showPassword">
+                                <input type="checkbox" id="showPassword" (change)="togglePasswordVisibility()">Show Password
+                            </label>
+                        </div>
+
+                        <!-- Update Button -->
+                        <button type="submit" class="btn btn-success btn-center" [disabled]="updateAdminForm.invalid">
+                            {{ updateAdminForm.invalid ? 'Please enter new Admin Account Credentials' : 'UPDATE' }}
+                        </button>     
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Super Admin Create Admin</title>
+</head>
+<body>
+    <div class="center-container">
+        <h1>Registration Page</h1>
+        <br>
+        <h3>Register as a User?</h3>
+        <button class="btn btn-primary" (click)="showUserForm()">Register as User</button>
+        <br>
+        <h3>Register as a Driver?</h3>
+        <button class="btn btn-primary" (click)="showDriverForm()">Register as Driver</button>
+
+        <div *ngIf="isUserFormVisible">
+            <!-- User Registration Form -->
+            <h2>User Registration Form</h2>
+            <form [formGroup]="registerUserForm" (ngSubmit)="registerUser()">
+                <!-- User registration form fields go here -->
+                <!-- Error message div -->
+                <div *ngIf="registerError" class="alert alert-danger">
+                    <strong>{{ registerError }}</strong>
+                </div>
+            
+                <div class="form-group">
+                    <label for="userFirstName"><b>First Name:</b></label>
+                    <input type="text" class="form-control" formControlName="userFirstName" name="userFirstName" id="userFirstName" placeholder="Enter Your First Name" required>
+                    <div *ngIf="registerUserForm.get('userFirstName').invalid && (registerUserForm.get('userFirstName').dirty || registerUserForm.get('userFirstName').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userFirstName').hasError('required')">First Name is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userFirstName').hasError('minlength')">First Name must contain at least 5 characters!</strong>
+                    </div>                   
+                </div>
+
+                <div class="form-group">
+                    <label for="userLastName"><b>Last Name:</b></label>
+                    <input type="text" class="form-control" formControlName="userLastName" name="userLastName" id="userLastName" placeholder="Enter Your Last Name" required>
+                    <div *ngIf="registerUserForm.get('userLastName').invalid && (registerUserForm.get('userLastName').dirty || registerUserForm.get('userLastName').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userLastName').hasError('required')">Last Name is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userLastName').hasError('minlength')">Last Name must contain at least 3 characters!</strong>
+                    </div>                   
+                </div>
+
+                <div class="form-group">
+                    <label for="userEmail"><b>Email:</b></label>
+                    <input type="email" class="form-control" formControlName="userEmail" name="userEmail" id="userEmail" placeholder="Enter Your Email" required>
+                    <div *ngIf="registerUserForm.get('userEmail').invalid && (registerUserForm.get('userEmail').dirty || registerUserForm.get('userEmail').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userEmail').hasError('required')">Email is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userEmail').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                        <strong *ngIf="registerUserForm.get('userEmail').hasError('email')">Invalid email format!</strong>
+                        <strong *ngIf="registerUserForm.get('userEmail').hasError('taken')">Email is already taken!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="userMobileNumber"><b>Mobile Number:</b></label>
+                    <input type="tel" pattern="[0-9]{8}" class="form-control" formControlName="userMobileNumber" name="userMobileNumber" id="userMobileNumber" placeholder="Enter Your Mobile Number" required>
+                    <div *ngIf="registerUserForm.get('userMobileNumber').invalid && (registerUserForm.get('userMobileNumber').dirty || registerUserForm.get('userMobileNumber').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userMobileNumber').hasError('required')">Mobile Number is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userMobileNumber').hasError('minlength')">Mobile Number must contain at least 8 digits!</strong>
+                        <strong *ngIf="registerUserForm.get('userMobileNumber').hasError('maxlength')">Mobile Number must contain at most 8 digits!</strong>
+                        <strong *ngIf="registerUserForm.get('userMobileNumber').hasError('pattern')">Mobile Number must start with 8 or 9 and have a total of 8 digits!</strong>
+                        <strong *ngIf="registerUserForm.get('userMobileNumber').hasError('taken')">Mobile Number is already taken!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="userCabPreferences"><b>Preferences of Cab Type:</b></label>
+                    <select class="form-control" formControlName="userCabPreferences" name="userCabPreferences" id="userCabPreferences" required>
+                        <option value="STANDARD">Standard Taxi</option>
+                        <option value="PREMIUM">Premium Taxi</option>
+                        <option value="LIMOUSINE">Limousine Taxi</option>
+                        <option value="SPECIAL">Wheelchair-Accessible Taxis</option>                 
+                    </select>                                    
+                    <div *ngIf="registerUserForm.get('userCabPreferences').invalid && (registerUserForm.get('userCabPreferences').dirty || registerUserForm.get('userCabPreferences').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userCabPreferences').hasError('required')">Cab Preferences are required!</strong>
+                    </div>
+                </div>
+                    
+
+                <div class="form-group">
+                    <label for="userUsername"><b>Username:</b></label>
+                    <input type="text" class="form-control" formControlName="userUsername" name="userUsername" id="userUsername" placeholder="Enter Your Username" required>
+                    <div *ngIf="registerUserForm.get('userUsername').invalid && (registerUserForm.get('userUsername').dirty || registerUserForm.get('userUsername').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userUsername').hasError('required')">Username is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userUsername').hasError('minlength')">Username must contain at least 8 characters!</strong>
+                        <strong *ngIf="registerUserForm.get('userUsername').hasError('maxlength')">Username must not contain more than 16 characters!</strong>
+                        <strong *ngIf="registerUserForm.get('userUsername').hasError('pattern')">Username must start with an uppercase 'U'!</strong>
+                        <strong *ngIf="registerUserForm.get('userUsername').hasError('taken')">Username is already taken!</strong> 
+                    </div>                    
+                </div>
+                    
+                <div class="form-group">
+                    <label for="userPasswordInput"><b>Password:</b></label>
+                    <input id="userPasswordInput" type="{{ showPassword ? 'text' : 'password' }}" class="form-control" 
+                        formControlName="userPassword" name="userPassword" placeholder="Enter Your Password" required>
+                    <div *ngIf="registerUserForm.get('userPassword').invalid && (registerUserForm.get('userPassword').dirty || registerUserForm.get('userPassword').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerUserForm.get('userPassword').hasError('required')">Password is required!</strong>
+                        <strong *ngIf="registerUserForm.get('userPassword').hasError('minlength')">Password must contain at least 8 characters!</strong>
+                        <strong *ngIf="registerUserForm.get('userPassword').hasError('maxlength')">Password must not contain more than 255 characters!</strong>
+                        <strong *ngIf="registerUserForm.get('userPassword').hasError('pattern')">Password must contain at least 1 number, 1 uppercase letter, 1 '&#64;', and be at least 8 characters long!</strong>
+                    </div>                
+                </div>              
+                    
+                <div class="form-group">
+                    <label for="showUserPassword">
+                        <input type="checkbox" id="showUserPassword" (change)="toggleUserPasswordVisibility()">Show Password
+                    </label>
+                </div>
+                    
+                <!-- Register Button -->
+                <button type="submit" class="btn btn-success btn-center" [disabled]="registerUserForm.invalid">
+                    {{ registerUserForm.invalid ? 'Please enter User Account creation Credentials' : 'REGISTER' }}
+                </button>  
+            </form>
+        </div>
+
+        <div *ngIf="isDriverFormVisible">
+            <!-- Driver Registration Form -->
+            <h2>Driver Registration Form</h2>
+            <form [formGroup]="registerDriverForm" (ngSubmit)="registerDriver()">
+                <!-- Driver registration form fields go here -->
+                <!-- Error message div -->
+                <div *ngIf="registerError" class="alert alert-danger">
+                    <strong>{{ registerError }}</strong>
+                </div>
+            
+                <div class="form-group">
+                    <label for="driverFirstName"><b>First Name:</b></label>
+                    <input type="text" class="form-control" formControlName="driverFirstName" name="driverFirstName" id="driverFirstName" placeholder="Enter Your First Name" required>
+                    <div *ngIf="registerDriverForm.get('driverFirstName').invalid && (registerDriverForm.get('driverFirstName').dirty || registerDriverForm.get('driverFirstName').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverFirstName').hasError('required')">First Name is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverFirstName').hasError('minlength')">First Name must contain at least 5 characters!</strong>
+                    </div>                   
+                </div>
+
+                <div class="form-group">
+                    <label for="driverLastName"><b>Last Name:</b></label>
+                    <input type="text" class="form-control" formControlName="driverLastName" name="driverLastName" id="driverLastName" placeholder="Enter Your Last Name" required>
+                    <div *ngIf="registerDriverForm.get('driverLastName').invalid && (registerDriverForm.get('driverLastName').dirty || registerDriverForm.get('driverLastName').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverLastName').hasError('required')">Last Name is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverLastName').hasError('minlength')">Last Name must contain at least 3 characters!</strong>
+                    </div>                   
+                </div>
+
+                <div class="form-group">
+                    <label for="driverEmail"><b>Email:</b></label>
+                    <input type="email" class="form-control" formControlName="driverEmail" name="driverEmail" id="driverEmail" placeholder="Enter Your Email" required>
+                    <div *ngIf="registerDriverForm.get('driverEmail').invalid && (registerDriverForm.get('driverEmail').dirty || registerDriverForm.get('driverEmail').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverEmail').hasError('required')">Email is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverEmail').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverEmail').hasError('email')">Invalid email format!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverEmail').hasError('taken')">Email is already taken!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="driverMobileNumber"><b>Mobile Number:</b></label>
+                    <input type="tel" pattern="[0-9]{8}" class="form-control" formControlName="driverMobileNumber" name="driverMobileNumber" id="driverMobileNumber" placeholder="Enter Your Mobile Number" required>
+                    <div *ngIf="registerDriverForm.get('driverMobileNumber').invalid && (registerDriverForm.get('driverMobileNumber').dirty || registerDriverForm.get('driverMobileNumber').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverMobileNumber').hasError('required')">Mobile Number is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverMobileNumber').hasError('minlength')">Mobile Number must contain at least 8 digits!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverMobileNumber').hasError('maxlength')">Mobile Number must contain at most 8 digits!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverMobileNumber').hasError('pattern')">Mobile Number must start with 8 or 9 and have a total of 8 digits!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverMobileNumber').hasError('taken')">Mobile Number is already taken!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="driverVehicleType"><b>Vehicle Type:</b></label>
+                    <select class="form-control" formControlName="driverVehicleType" name="driverVehicleType" id="driverVehicleType" required>
+                        <option value="STANDARD">Standard Taxi</option>
+                        <option value="PREMIUM">Premium Taxi</option>
+                        <option value="LIMOUSINE">Limousine Taxi</option>
+                        <option value="SPECIAL">Wheelchair-Accessible Taxis</option>                 
+                    </select>                                    
+                    <div *ngIf="registerDriverForm.get('driverVehicleType').invalid && (registerDriverForm.get('driverVehicleType').dirty || registerDriverForm.get('driverVehicleType').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverVehicleType').hasError('required')">Cab Type is required!</strong>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="driverCarBrand"><b>Car Brand:</b></label>
+                    <input type="text" class="form-control" formControlName="driverCarBrand" name="driverCarBrand" id="driverCarBrand" placeholder="Enter Your Car Brand" required>
+                    <div *ngIf="registerDriverForm.get('driverCarBrand').invalid && (registerDriverForm.get('driverCarBrand').dirty || registerDriverForm.get('driverCarBrand').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverCarBrand').hasError('required')">Car Brand is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverCarBrand').hasError('minlength')">Car Brand must contain at least 3 characters!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="driverCarColor"><b>Car Color:</b></label>
+                    <input type="text" class="form-control" formControlName="driverCarColor" name="driverCarColor" id="driverCarColor" placeholder="Enter Your Car Color" required>
+                    <div *ngIf="registerDriverForm.get('driverCarColor').invalid && (registerDriverForm.get('driverCarColor').dirty || registerDriverForm.get('driverCarColor').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverCarColor').hasError('required')">Car Brand is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverCarColor').hasError('minlength')">Car Brand must contain at least 3 characters!</strong>
+                    </div>            
+                </div>
+
+                <div class="form-group">
+                    <label for="driverUsername"><b>Username:</b></label>
+                    <input type="text" class="form-control" formControlName="driverUsername" name="driverUsername" id="driverUsername" placeholder="Enter Your Username" required>
+                    <div *ngIf="registerDriverForm.get('driverUsername').invalid && (registerDriverForm.get('driverUsername').dirty || registerDriverForm.get('driverUsername').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverUsername').hasError('required')">Username is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverUsername').hasError('minlength')">Username must contain at least 8 characters!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverUsername').hasError('maxlength')">Username must not contain more than 16 characters!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverUsername').hasError('pattern')">Username must start with an uppercase 'D'!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverUsername').hasError('taken')">Username is already taken!</strong> 
+                    </div>                    
+                </div>
+                    
+                <div class="form-group">
+                    <label for="driverPasswordInput"><b>Password:</b></label>
+                    <input id="driverPasswordInput" type="{{ showPassword ? 'text' : 'password' }}" class="form-control" 
+                        formControlName="driverPassword" name="driverPassword" placeholder="Enter Your Password" required>
+                    <div *ngIf="registerDriverForm.get('driverPassword').invalid && (registerDriverForm.get('driverPassword').dirty || registerDriverForm.get('driverPassword').touched)"
+                        class="error-message">
+                        <strong *ngIf="registerDriverForm.get('driverPassword').hasError('required')">Password is required!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverPassword').hasError('minlength')">Password must contain at least 8 characters!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverPassword').hasError('maxlength')">Password must not contain more than 255 characters!</strong>
+                        <strong *ngIf="registerDriverForm.get('driverPassword').hasError('pattern')">Password must contain at least 1 number, 1 uppercase letter, 1 '&#64;', and be at least 8 characters long!</strong>
+                    </div>                
+                </div>              
+                    
+                <div class="form-group">
+                    <label for="showDriverPassword">
+                        <input type="checkbox" id="showDriverPassword" (change)="toggleDriverPasswordVisibility()">Show Password
+                    </label>
+                </div>
+                    
+                <!-- Register Button -->
+                <button type="submit" class="btn btn-success btn-center" [disabled]="registerDriverForm.invalid">
+                    {{ registerDriverForm.invalid ? 'Please enter Driver Account creation Credentials' : 'REGISTER' }}
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Update User</title>
+</head>
+<body>
+    <div class="center-container">
+        <h1>Admin Update User Page</h1>
+        <button type="button" class="btn btn-primary btn-center btn-router" routerLink="/admin/viewUsers">Return to View Users Page</button>
+        <br>
+        <!-- Error message div -->
+        <div *ngIf="updateError" class="alert alert-danger">
+            <strong>{{ updateError }}</strong>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- Display old data in table format -->
+                <div class="col-md-6">
+                    <h2>Old User Data</h2>
+                    <!-- Table to display old data -->
+                    <table class="table">
+                        <!-- Table headers -->
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <!-- Table body -->
+                        <tbody *ngIf="oldUserData">
+                            <tr>
+                                <td>First Name</td>
+                                <td>{{ oldUserData?.firstName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Last Name</td>
+                                <td>{{ oldUserData?.lastName }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ oldUserData?.email }}</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile Number</td>
+                                <td>{{ oldUserData?.mobileNumber }}</td>
+                            </tr>
+                            <tr>
+                                <td>Preferences of Cab Type</td>
+                                <td>{{ oldUserData?.preferences }}</td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td>{{ oldUserData?.username }}</td>
+                            </tr>
+                        </tbody>                        
+                    </table>
+                </div>
+                <!-- Form for new data -->
+                <div class="col-md-6">
+                    <h2>Update User Data</h2>
+                    <!-- Reactive Form -->
+                    <form [formGroup]="updateUserForm" (ngSubmit)="updateUser()">
+                        <!-- Form fields for new data -->
+                        <div class="form-group">
+                            <label for="userId"><b>User ID:</b></label>
+                            <input type="text" class="form-control" id="userId" value="{{ oldUserData?.id.toString() }}" name="userId" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstName"><b>First Name:</b></label>
+                            <input type="text" class="form-control" id="firstName" formControlName="firstName" name="firstName" placeholder="Enter Your First Name" required>
+                            <div *ngIf="updateUserForm.get('firstName').invalid && (updateUserForm.get('firstName').dirty || updateUserForm.get('firstName').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('firstName').hasError('required')">First Name is required!</strong>
+                                <strong *ngIf="updateUserForm.get('firstName').hasError('minlength')">First Name must contain at least 5 characters!</strong>
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName"><b>Last Name:</b></label>
+                            <input type="text" class="form-control" id="lastName" formControlName="lastName" name="lastName" placeholder="Enter Your Last Name" required>
+                            <div *ngIf="updateUserForm.get('lastName').invalid && (updateUserForm.get('lastName').dirty || updateUserForm.get('lastName').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('lastName').hasError('required')">Last Name is required!</strong>
+                                <strong *ngIf="updateUserForm.get('lastName').hasError('minlength')">Last Name must contain at least 3 characters!</strong>
+                            </div>  
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email"><b>Email:</b></label>
+                            <input type="email" class="form-control" id="email" formControlName="email" name="email" placeholder="Enter Your Email" required>
+                            <div *ngIf="updateUserForm.get('email').invalid && (updateUserForm.get('email').dirty || updateUserForm.get('email').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('email').hasError('required')">Email is required!</strong>
+                                <strong *ngIf="updateUserForm.get('email').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                                <strong *ngIf="updateUserForm.get('email').hasError('email')">Invalid email format!</strong>
+                                <strong *ngIf="updateUserForm.get('email').hasError('taken')">Email is already taken!</strong>
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mobileNumber"><b>Mobile Number:</b></label>
+                            <input type="tel" class="form-control" id="mobileNumber" formControlName="mobileNumber" name="mobileNumber" pattern="[0-9]{8}" placeholder="Enter Your Mobile Number" required>
+                            <div *ngIf="updateUserForm.get('mobileNumber').invalid && (updateUserForm.get('mobileNumber').dirty || updateUserForm.get('mobileNumber').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('mobileNumber').hasError('required')">Mobile Number is required!</strong>
+                                <strong *ngIf="updateUserForm.get('mobileNumber').hasError('minlength')">Mobile Number must contain at least 8 digits!</strong>
+                                <strong *ngIf="updateUserForm.get('mobileNumber').hasError('maxlength')">Mobile Number must contain at most 8 digits!</strong>
+                                <strong *ngIf="updateUserForm.get('mobileNumber').hasError('pattern')">Mobile Number must start with 8 or 9 and have a total of 8 digits!</strong>
+                                <strong *ngIf="updateUserForm.get('mobileNumber').hasError('taken')">Mobile Number is already taken!</strong>
+                            </div>      
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cabPreferences"><b>Preferences of Cab Type:</b></label>
+                            <select class="form-control" formControlName="cabPreferences" name="cabPreferences" id="cabPreferences" required>
+                                <option value="STANDARD">Standard Taxi</option>
+                                <option value="PREMIUM">Premium Taxi</option>
+                                <option value="LIMOUSINE">Limousine Taxi</option>
+                                <option value="SPECIAL">Wheelchair-Accessible Taxis</option>                 
+                              </select>                                                                 
+                            <div *ngIf="updateUserForm.get('cabPreferences').invalid && (updateUserForm.get('cabPreferences').dirty || updateUserForm.get('cabPreferences').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('cabPreferences').hasError('required')">Cab Preferences are required!</strong>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username"><b>Username:</b></label>
+                            <input type="text" class="form-control" id="username" formControlName="username" name="username" placeholder="Enter Your Username" required>
+                            <div *ngIf="updateUserForm.get('username').invalid && (updateUserForm.get('username').dirty || updateUserForm.get('username').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('username').hasError('required')">Username is required!</strong>
+                                <strong *ngIf="updateUserForm.get('username').hasError('minlength')">Username must contain at least 8 characters!</strong>
+                                <strong *ngIf="updateUserForm.get('username').hasError('maxlength')">Username must not contain more than 16 characters!</strong>
+                                <strong *ngIf="updateUserForm.get('username').hasError('pattern')">Username must start with an uppercase 'A'!</strong>
+                                <strong *ngIf="updateUserForm.get('username').hasError('taken')">Username is already taken!</strong>
+                            </div>  
+                        </div>
+
+                        <div class="form-group">
+                            <label for="passwordInput"><b>Password:</b></label>
+                            <input id="passwordInput" type="{{ showPassword ? 'text' : 'password' }}" class="form-control" 
+                                formControlName="password" name="password" placeholder="Enter Your Password" required>
+                            <div *ngIf="updateUserForm.get('password').invalid && (updateUserForm.get('password').dirty || updateUserForm.get('password').touched)"
+                                class="error-message">
+                                <strong *ngIf="updateUserForm.get('password').hasError('required')">Password is required!</strong>
+                                <strong *ngIf="updateUserForm.get('password').hasError('minlength')">Password must contain at least 8 characters!</strong>
+                                <strong *ngIf="updateUserForm.get('password').hasError('maxlength')">Password must not contain more than 255 characters!</strong>
+                                <strong *ngIf="updateUserForm.get('password').hasError('pattern')">Password must contain at least 1 number, 1 uppercase letter, 1 '&#64;', and be at least 8 characters long!</strong>
+                            </div>                
+                        </div>      
+
+                        <div class="form-group">
+                            <label for="showPassword">
+                                <input type="checkbox" id="showPassword" (change)="togglePasswordVisibility()">Show Password
+                            </label>
+                        </div>
+
+                        <!-- Update Button -->
+                        <button type="submit" class="btn btn-success btn-center" [disabled]="updateUserForm.invalid">
+                            {{ updateUserForm.invalid ? 'Please enter new User Account Credentials' : 'UPDATE' }}
+                        </button>     
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Admin View Users</title>
+</head>
+<body class="bg-light">
+    <div class="container mt-4">
+        <h1 class="text-center">Admin View Users Page</h1>
+        <div *ngIf="successMessage" class="alert alert-success">
+            <strong>{{ successMessage }}</strong>
+            <div>
+                <p><strong>First Name:</strong> {{ newUser.firstName }}</p>
+                <p><strong>Last Name:</strong> {{ newUser.lastName }}</p>
+                <p><strong>Email:</strong> {{ newUser.email }}</p>
+                <p><strong>Mobile Number:</strong> {{ newUser.mobileNumber }}</p>
+                <p><strong>Cab Preferences:</strong> {{ newUser.preferences }}</p>
+                <p><strong>Username:</strong> {{ newUser.username }}</p>
+                <p><strong>Password:</strong> {{ newUser.password }}</p>
+            </div>
+        </div>
+        
+        <div class="text-center my-4">
+            <button type="button" class="btn btn-primary btn-router" routerLink="/admin/createUser">Add A User</button>
+            <br><br>
+            <button type="button" class="btn btn-secondary btn-router" routerLink="/admin">Return to Admin Dashboard</button>
+            <br><br>
+            <form>
+                <div class="form-group">
+                    <label for="filterCriteria"><b>Filter Enquiries By:</b></label>
+                    <select class="form-control" id="filterCriteria" name="filterCriteria" [(ngModel)]="selectedFilterCriteria" (change)="filterUsers()">
+                        <option value="firstName">First Name</option>
+                        <option value="lastName">Last Name</option>
+                        <option value="preferences">Cab Type</option>
+                        <option value="username">Username</option>
+                        <option value="email">Email</option>
+                        <option value="mobileNumber">Mobile Number</option>
+                    </select>
+                    <br>
+                    <label *ngIf="selectedFilterCriteria !== 'email' && selectedFilterCriteria !== 'preferences'" for="filterInput"><b>Filter:</b></label>
+                    <input *ngIf="selectedFilterCriteria !== 'email' && selectedFilterCriteria !== 'preferences'" type="text" class="form-control" id="filterInput" name="filterInput" [(ngModel)]="searchTerm" (input)="filterUsers()">
+                    <label *ngIf="selectedFilterCriteria === 'email'" for="filterEmail"><b>Filter:</b></label>
+                    <input *ngIf="selectedFilterCriteria === 'email'" type="email" class="form-control" id="filterEmail" name="filterEmail" [(ngModel)]="searchTerm" (input)="filterUsers()">
+                    <label *ngIf="selectedFilterCriteria === 'preferences'" for="filterPreferences"><b>Filter:</b></label>
+                    <select *ngIf="selectedFilterCriteria === 'preferences'" name="filterPreferences" id="filterPreferences" class="form-control" [(ngModel)]="searchTerm" (change)="onFilterPreferencesChange()" required>
+                        <option value="" disabled>Select Cab Type</option>
+                        <option *ngFor="let cabType of cabTypes" [ngValue]="cabType">{{ cabType }}</option>
+                    </select>                                                                                                                        
+                </div>
+            </form>
+        </div>
+        <br>
+        <div *ngIf="deletedUser" [ngClass]="{'alert alert-success': !deletionError, 'alert alert-danger': deletionError}" class="alert">
+            <strong>{{ deletionError ? 'Error' : 'Success' }}:</strong> {{ deletionError || 'User deleted successfully.' }}
+            <br>
+            <strong>Deleted User Details:</strong><br>
+            UUID: {{ deletedUser.user.id }}<br>
+            First Name: {{ deletedUser.user.firstName }}<br>
+            Last Name: {{ deletedUser.user.lastName }}<br>
+            Username: {{ deletedUser.user.username }}<br>
+            Email: {{ deletedUser.user.email }}<br>
+            Mobile Number: {{ deletedUser.user.mobileNumber }}<br>
+            Cab Preferences: {{ deletedUser.user.preferences }}<br>
+        </div>        
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">UUID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Cab Type</th>
+                    <th scope="col">username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile Number</th>
+                    <th scope="col">Edit User</th>
+                    <th scope="col">Delete User</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let userContact of filteredUsers">
+                    <td>{{ userContact.user.id }}</td>
+                    <td>{{ userContact.user.firstName }}</td>
+                    <td>{{ userContact.user.lastName }}</td>
+                    <td>{{ selectedFilterCriteria === 'preferences' ? getDisplayPreference(userContact.user.preferences) : userContact.user.preferences }}</td>
+                    <td>{{ userContact.user.username }}</td>
+                    <td>{{ userContact.user.email }}</td>
+                    <td>{{ userContact.user.mobileNumber }}</td>
+                    <td><button type="button" class="btn btn-warning btn-center" [routerLink]="'/admin/editUser/' + userContact.user.id">Edit User</button></td>
+                    <td><button type="submit" class="btn btn-danger btn-center" (click)="deleteUser(userContact.user.id)">Delete User</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Add pagination -->
+        <div class="text-center">
+            <ul class="pagination">
+              <li class="page-item" *ngFor="let page of getPages()" [class.active]="currentPage === page">
+                <a class="page-link" href="#" (click)="onPageChange(page, $event)">{{ page }}</a>
+              </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

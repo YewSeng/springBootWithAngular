@@ -1,0 +1,15 @@
+iframe[name="bottom"] {
+    background-color: darkgray;
+    overflow: auto;
+    width: 100%; /* Make sure the iframe fills its container */
+    height: 900px; /* Set a fixed height for the iframe */
+    border: none; /* Remove the default border */
+}
+
+/* Adjust the content within the iframe */
+iframe[name="bottom"] html, 
+iframe[name="bottom"] body {
+    margin: 0; /* Remove default margins */
+    padding: 0; /* Remove default padding */
+    font-family: Arial, sans-serif; /* Set a default font family */
+}

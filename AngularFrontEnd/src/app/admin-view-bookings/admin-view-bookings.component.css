@@ -1,0 +1,8 @@
+body {
+    background: url(../../assets/images/taxi.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    padding: 0;  
+}

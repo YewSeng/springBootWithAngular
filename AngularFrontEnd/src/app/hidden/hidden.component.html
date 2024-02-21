@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hidden Super Admin Privillege</h1>
+    <!-- Add a loading spinner and improve error message display -->
+    <!-- Add a loading spinner and improve error message display -->
+        <div class="center-container text-center">
+            <form [formGroup]="adminCodeForm" (ngSubmit)="onValidSuperAdmin()">
+                <div class="form-group">
+                    <label for="enterCode"><b>Enter Admin Code:</b></label>
+                    <input type="text" class="form-control" formControlName="adminCode" id="enterCode" placeholder="Enter Admin Code" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-center" [disabled]="adminCodeForm.invalid">
+                    <span *ngIf="isLoading">Loading...</span>
+                    <span *ngIf="!isLoading">{{ adminCodeForm.invalid ? 'Please enter a valid code' : 'SUBMIT ADMIN CODE' }}</span>
+                </button>
+                <div *ngIf="codeError" class="alert alert-danger mt-3">{{ codeError }}</div>
+            </form>
+        </div>
+</body>
+</html>

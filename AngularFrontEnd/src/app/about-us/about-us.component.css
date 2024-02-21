@@ -1,0 +1,35 @@
+h1 {
+    text-align: center;
+}
+
+iframe {
+    margin-left: auto; 
+    margin-right: auto; 
+    display: block; 
+}
+
+p {
+    text-align: center;
+    color: cornflowerblue;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.scrolling-text {
+    color: cornflowerblue;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: scroll 10s linear infinite;
+}
+
+body {
+    background: url(../../assets/images/taxi.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    padding: 0;  
+}

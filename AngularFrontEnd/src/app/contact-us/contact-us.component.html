@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Contact</title>
+</head>
+<body>
+    <h1>Contact Us</h1>
+
+    <div class="scrolling-text">
+        <b>{{ scrollingText }}</b>
+    </div>
+
+    <!-- contact-us.component.html -->
+
+    <div class="center-container text-center">
+        <div *ngIf="successMessage" class="alert alert-success">
+            <strong>{{ successMessage }}</strong>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert alert-danger">
+            <strong>{{ errorMessage }}</strong>
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="addResponse()">
+            <div class="form-group">
+                <label for="name"><b>Name:</b></label><br>
+                <input type="text" formControlName="name" name="name" id="name" placeholder="Enter Your Name">
+                <div *ngIf="contactForm.get('name').invalid && (contactForm.get('name').dirty || contactForm.get('name').touched)"
+                    class="error-message">
+                    <strong *ngIf="contactForm.get('name').hasError('required')">Name is required!</strong>
+                    <strong *ngIf="contactForm.get('name').hasError('minlength')">Name must contain at least 5 characters!</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email"><b>Email:</b></label><br>
+                <input type="email" formControlName="email" name="email" id="email" placeholder="Enter Your Email">
+                <div *ngIf="contactForm.get('email').invalid && (contactForm.get('email').dirty || contactForm.get('email').touched)"
+                    class="error-message">
+                    <strong *ngIf="contactForm.get('email').hasError('required')">Email is required!</strong>
+                    <strong *ngIf="contactForm.get('email').hasError('minlength')">Email must contain at least 10 characters!</strong>
+                    <strong *ngIf="contactForm.get('email').hasError('email')">Invalid email format!</strong>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="enquiries"><b>Enquiries:</b></label><br>
+                <textarea formControlName="enquiries" name="enquiries" id="enquiries" cols="60" rows="4" class="no-resize" placeholder="Lorem Ipsum"></textarea>
+                <div *ngIf="contactForm.get('enquiries').invalid && (contactForm.get('enquiries').dirty || contactForm.get('enquiries').touched)"
+                    class="error-message">
+                    <strong *ngIf="contactForm.get('enquiries').hasError('required')">Enquiries is required!</strong>
+                    <strong *ngIf="contactForm.get('enquiries').hasError('minlength')">Enquiries must contain at least 10 characters!</strong>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-center">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
