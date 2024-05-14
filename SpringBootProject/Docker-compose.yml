@@ -1,0 +1,28 @@
+version: '3'
+services:
+ my-spring-app:
+  build: 
+   context: .
+   dockerfile: Dockerfile
+  ports:
+   - "8084:8084"
+  environment:
+   MYSQL_HOST: mysqldb
+   MYSQL_USER: root
+   MYSQL_PASSWORD: password
+   MYSQL_PORT: 3306
+  depends_on:
+   - mysqldb
+  networks:
+   - mynetwork
+ mysqldb:
+   image: mysql
+   ports:
+    - "3307:3306"
+   environment:
+    MYSQL_DATABASE: db1
+    MYSQL_ROOT_PASSWORD: password
+   networks:
+    - mynetwork
+networks: 
+     mynetwork:
